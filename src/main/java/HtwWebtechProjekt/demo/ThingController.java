@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:5173")
 public class ThingController {
 
     @Autowired
@@ -32,4 +33,16 @@ public class ThingController {
         return service.getAll();
     }
 
+    @PutMapping("/things/{id}")
+    public Thing updateThing(@PathVariable String id, @RequestBody Thing newThing) {
+        logger.info("PUT request on route things with {}", id);
+        Long thingId = Long.parseLong(id);
+        return service.update(thingId, newThing);
+    }
+    @DeleteMapping("/things/{id}")
+    public void deleteThing(@PathVariable String id) {
+        logger.info("DELETE request on route things with {}", id);
+        Long thingId = Long.parseLong(id);
+        service.delete(thingId);
+    }
 }

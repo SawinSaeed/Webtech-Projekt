@@ -26,4 +26,20 @@ public class ThingService {
         for (Thing thing : iterator)  things.add(thing);
         return things;
     }
+
+    public Thing update(Long thingId, Thing newThing) {
+        Thing existingThing = repo.findById(thingId).orElseThrow(() -> new RuntimeException());
+        existingThing.setName(newThing.getName());
+        existingThing.setPrice(newThing.getPrice());
+        return repo.save(existingThing);
+    }
+
+    public void delete(Long id) {
+        if(repo.existsById(id)) {
+            repo.deleteById(id);
+        }
+        else {
+            throw new RuntimeException();
+        }
+    }
 }
